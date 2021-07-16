@@ -14,18 +14,12 @@ namespace Banished_Project
         private List<Node> GetAdjacentWalkableNodes(Node fromNode)
         {
             List<Node> walkableNodes = new List<Node>();
-            
-            IEnumerable<Point> nextLocations = GetAdjacentLocations(fromNode.Location);
-            foreach (var location in nextLocations)
+            IEnumerable<Node> nextNodes = GetAdjacentLocations(fromNode.Location);                
+            foreach (var node in nextNodes)
             {
-                int x = location.X;
-                int y = location.Y;
-        
-                // Stay within the grid's boundaries
-                if (x < 0 || x >= Parameters.Map.Count || y < 0 || y >= Parameters.Map[0].Count)
+                //Ignore current node
+                if(node == fromNode)
                     continue;
-        
-                Node node = Parameters.Map[x][y];
                 // Ignore non-walkable nodes
                 if (!node.IsWalkable)
                     continue;
@@ -56,20 +50,27 @@ namespace Banished_Project
         
             return walkableNodes;
         }
-        IEnumerable<Point> GetAdjacentLocations(Point loc)
+        IEnumerable<Node> GetAdjacentLocations(Point loc)
         {
-            List<Point> pointList = new List<Point>(){new Point(loc.X, loc.Y-1), new Point(loc.X, loc.Y+1),
-            new Point(loc.X+1, loc.Y), new Point(loc.X-1, loc.Y)
-            ,new Point(loc.X-1, loc.Y-1),new Point(loc.X+1, loc.Y-1), new Point(loc.X-1, loc.Y+1), new Point(loc.X+1, loc.Y+1)
-            };
-            return pointList;
+            List<Node> nodeList = new List<Node>();
+            for(int i=-1; i<=1; i++)
+                for(int j=-1; j<=1; j++)
+                {
+                    try
+                    {
+                        nodeList.Add(Parameters.Map[loc.X + i][loc.Y + j]);
+                    }
+                    catch(Exception e){}
+                }
+            return nodeList;
         }
         private bool Search(Node currentNode)
         {   
-            for(int i=0; i<Parameters.Map.Count; i++)
-                for(int j=0; j<Parameters.Map[0].Count; j++)
-                    Parameters.Map[i][j].SetGAndH(currentNode, Parameters.EndLocation);
             currentNode.State = NodeState.Closed;
+            foreach(Node n in GetAdjacentLocations(currentNode.Location))
+            {
+                n.SetGAndH(currentNode, Parameters.EndLocation);
+            }
             List<Node> nextNodes = GetAdjacentWalkableNodes(currentNode);
             nextNodes.Sort((node1, node2) => node1.F.CompareTo(node2.F));
             foreach (var nextNode in nextNodes)

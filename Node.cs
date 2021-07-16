@@ -21,7 +21,7 @@ namespace Banished_Project
             {
                 Point A = NA.Location;
                 Point B = NB.Location;
-                return (float)Math.Sqrt(Math.Pow((A.X-B.X),2) + Math.Pow((A.Y-B.Y),2));                
+                return (float)Math.Sqrt(Math.Pow((A.X - B.X),2) + Math.Pow((A.Y - B.Y),2));                
             }
             else
                 return 0;
@@ -29,8 +29,8 @@ namespace Banished_Project
 
         public void SetGAndH(Node StartNode, Node EndNode)
         {
-            this.G = (float)Math.Sqrt(Math.Pow((StartNode.Location.X-this.Location.X),2) + Math.Pow((StartNode.Location.Y-this.Location.Y),2));
-            this.H = (float)Math.Sqrt(Math.Pow((EndNode.Location.X-this.Location.X),2) + Math.Pow((EndNode.Location.Y-this.Location.Y),2));
+            this.G = (float)Math.Sqrt(Math.Pow((StartNode.Location.X - this.Location.X),2) + Math.Pow((StartNode.Location.Y - this.Location.Y),2));
+            this.H = (float)Math.Sqrt(Math.Pow((EndNode.Location.X - this.Location.X),2) + Math.Pow((EndNode.Location.Y - this.Location.Y),2));
         }
     }
     public enum NodeState {Untested, Closed, Open}
