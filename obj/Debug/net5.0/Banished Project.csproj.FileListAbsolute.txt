@@ -1,0 +1,16 @@
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\Banished Project.exe
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\Banished Project.deps.json
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\Banished Project.runtimeconfig.json
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\Banished Project.runtimeconfig.dev.json
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\Banished Project.dll
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\ref\Banished Project.dll
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\bin\Debug\net5.0\Banished Project.pdb
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.csprojAssemblyReference.cache
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.AssemblyInfoInputs.cache
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.AssemblyInfo.cs
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.csproj.CoreCompileInputs.cache
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.dll
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\ref\Banished Project.dll
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.pdb
+C:\Users\VictorRegisMesquita\OneDrive - Poatek IT Consulting\Desktop\Banished Project\obj\Debug\net5.0\Banished Project.genruntimeconfig.cache
