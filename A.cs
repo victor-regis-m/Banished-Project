@@ -10,7 +10,56 @@ namespace Banished_Project
         {Parameters = p;}
 
         SearchParameters Parameters;
-
+        public float pavedTilesRatio(Node node, Node endNode)
+        {
+            int sx=0;
+            int sy=0;
+            int fx=0;
+            int fy=0; 
+            foreach(List<Node> l in Parameters.Map)
+            {
+                foreach(Node n in l)
+                {
+                    if(n==node)
+                    {
+                        sx = Parameters.Map.IndexOf(l);
+                        sy = l.IndexOf(n);
+                    }
+                    if(n==endNode)
+                    {
+                        fx = Parameters.Map.IndexOf(l);
+                        fy = l.IndexOf(n);
+                    }
+                }
+            }
+            if(fx<sx)
+            {
+                int a = fx;
+                fx = sx;
+                sx = a;
+            }
+            if(fy<sy)
+            {
+                int a = fy;
+                fy = sy;
+                sy = a;
+            }
+            int tiledNodes = 0;
+            int totalNodes = 0;
+            for(int i=sx; i<=fx; i++)
+            {
+                for(int j=sy; j<=fy;j++)
+                {
+                    if(Parameters.Map[i][j].IsWalkable)
+                    {
+                        totalNodes++;
+                        if(Parameters.Map[i][j].isPaved)
+                            tiledNodes++;
+                    }
+                }
+            }
+            return tiledNodes/((float)totalNodes);
+        }
         private List<Node> GetAdjacentWalkableNodes(Node fromNode)
         {
             List<Node> walkableNodes = new List<Node>();
@@ -31,7 +80,8 @@ namespace Banished_Project
                 // Already-open nodes are only added to the list if their G-value is lower going via this route.
                 if (node.State == NodeState.Open)
                 {
-                    float traversalCost = Node.GetTraversalCost(node, fromNode);
+                    float traversalCost = Node.GetTraversalCost(node, fromNode, Parameters.pavementSpeedMultiplier);
+                    
                     float gTemp = fromNode.G + traversalCost;
                     if (gTemp <= node.G)
                     {
@@ -69,7 +119,8 @@ namespace Banished_Project
             currentNode.State = NodeState.Closed;
             foreach(Node n in GetAdjacentLocations(currentNode.Location))
             {
-                n.SetGAndH(currentNode, Parameters.EndLocation);
+                n.SetGAndH(currentNode, Parameters.EndLocation,
+                 pavedTilesRatio(currentNode, Parameters.EndLocation),Parameters.pavementSpeedMultiplier);
             }
             List<Node> nextNodes = GetAdjacentWalkableNodes(currentNode);
             nextNodes.Sort((node1, node2) => node1.F.CompareTo(node2.F));
@@ -107,10 +158,12 @@ namespace Banished_Project
 
     public class SearchParameters
     {
-        public SearchParameters(Node Start, Node End, List<List<Node>> m)
-        {StartLocation = Start; EndLocation = End; Map=m;}
+        public SearchParameters(Node Start, Node End, List<List<Node>> m, float ps)
+        {StartLocation = Start; EndLocation = End; Map=m; pavementSpeedMultiplier = ps;}
         public Node StartLocation;
         public Node EndLocation;
         public List<List<Node>> Map {get;}
+
+        public float pavementSpeedMultiplier;
     }
 }
