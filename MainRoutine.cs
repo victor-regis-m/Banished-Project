@@ -8,33 +8,51 @@ namespace Banished_Project
     {
         static void Main()
         {
-            Point startPoint;
-            Point endPoint;
+            List<Point> startPoint;
+            List<Point> endPoint;
             List<List<Node>> nodes = GetMapInfo("MapInput.txt", out startPoint, out endPoint);
-            Node startingNode = nodes[startPoint.X][startPoint.Y];
-            Node endNode = nodes[endPoint.X][endPoint.Y];
+            List<Node> startingNodes =new List<Node>();
+            List<Node> endNodes = new List<Node>();
+            foreach(Point sp in startPoint)
+                startingNodes.Add(nodes[sp.Y][sp.X]);
+            foreach(Point ep in endPoint)
+                endNodes.Add(nodes[ep.Y][ep.X]);
             float paveSpeed = 2.2f;
-            SearchParameters p = new SearchParameters(startingNode, endNode, nodes, paveSpeed);
-            AStarSolver A = new AStarSolver(p);
-            List<Point> ans = A.FindPath();
+            List<List<Point>> ans= new List<List<Point>>();
+            foreach(Node sn in startingNodes)
+            {
+                foreach(Node en in endNodes)
+                {  
+                    ClearNodes(nodes);
+                    SearchParameters p = new SearchParameters(sn, en, nodes, paveSpeed);
+                    AStarSolver A = new AStarSolver(p); 
+                    ans.Add(A.FindPath());
+                }
+            }
             Console.WriteLine("Finished");
             Console.WriteLine(ans.Count);
-            foreach(Point a in ans)
-                Console.WriteLine("("+a.X+", "+a.Y+")");
+            foreach(List<Point> a in ans)
+            {
+                foreach(Point b in a)
+                    Console.WriteLine("("+b.X+", "+b.Y+")");
+                Console.WriteLine("\n");
+            }
         }
 
-        public static List<List<Node>> GetMapInfo(string filename, out Point startLocation, out Point endLocation)
+        public static List<List<Node>> GetMapInfo(string filename, out List<Point> startLocation, out List<Point> endLocation)
         {
             string[] map = System.IO.File.ReadAllText(@filename).Split("\n");
             List<List<Node>> nodes =  new List<List<Node>>();
-            startLocation=new Point(0,0);
-            endLocation=new Point(0,0);
+            startLocation=new List<Point>();                
+            endLocation=new List<Point>();
             int i=0;
             foreach(string l in map)
             {
+                Console.WriteLine(l);
                 List<Node> line = new List<Node>();
                 for(int j=0; j<l.Length; j++)
                 {
+                    Console.WriteLine(l[j]);
                     bool walkable=true;
                     bool paved=false;
                     if(l[j].ToString()=="*")
@@ -44,12 +62,12 @@ namespace Banished_Project
                     if(l[j].ToString()=="S")
                     {
                         paved=true;
-                        startLocation=new Point(i,j);
+                        startLocation.Add(new Point(i,j));
                     }
                     if(l[j].ToString()=="F")
                     {
                         paved=true;
-                        endLocation=new Point(i,j);
+                        endLocation.Add(new Point(i,j));
                     }
                     line.Add(new Node(new Point(i,j), walkable, paved));
                 }
@@ -57,6 +75,18 @@ namespace Banished_Project
                 i++;
             }
             return nodes;
+        }
+
+        public static void ClearNodes(List<List<Node>> m)
+        {
+            foreach(List<Node> l in m)
+            {
+                foreach(Node n in l)
+                {
+                    n.ParentNode=null;
+                    n.State=NodeState.Open;
+                }
+            }
         }
     }
 }
