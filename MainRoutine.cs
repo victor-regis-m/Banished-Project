@@ -6,61 +6,14 @@ namespace Banished_Project
 {
     class MainRoutine
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            bool [,] mapSurface = new bool[6,6];
-            int mapWidth = mapSurface.GetLength(0); 
-            int mapHeight = mapSurface.GetLength(1);
-            for(int i = 0; i<mapWidth; i++)
-            {
-                for(int j =0; j<mapHeight; j++)
-                {
-                    mapSurface[i,j]=true;
-                }
-            }
-            bool [,] mapPavement = new bool[6,6];
-            mapPavement[0,0] = true;
-            mapPavement[1,0] = true;
-            mapPavement[2,0] = true;
-            mapPavement[3,0] = true;
-            mapPavement[4,1] = true;
-            mapPavement[4,2] = true;
-            mapPavement[4,3] = true;
-            mapPavement[3,4] = true;
-            mapPavement[2,4] = true;
-            mapPavement[1,4] = true;
-            mapPavement[0,4] = true;
-            mapSurface[1,1]=false;
-            mapSurface[1,2]=false;
-            mapSurface[1,3]=false;
-            mapSurface[2,1]=false;
-            mapSurface[2,2]=false;
-            mapSurface[2,3]=false;
-            mapSurface[3,1]=false;
-            mapSurface[3,2]=false;
-            mapSurface[3,3]=false;
-            //mapSurface[3,3]=false;
-
-            List<List<Node>> nodes =  new List<List<Node>>();
-            for(int i=0; i<mapWidth; i++)
-            {
-                List<Node> line = new List<Node>();
-                for(int j=0; j<mapHeight; j++)
-                    line.Add(new Node(new Point(i,j), mapSurface[i,j], mapPavement[i,j]));
-                nodes.Add(line);
-            }
-
-            for(int i = 0; i<6; i++)
-            {
-                Console.WriteLine(mapSurface[0,i] + "," + mapSurface[1,i] + "," + mapSurface[2,i] + ","  + mapSurface[3,i] + ","  + mapSurface[4,i] + ","  + mapSurface[5,i] + ","  );
-                Console.WriteLine("\n");
-            }
-
-            Node startingNode = nodes[0][0];
-            Node endNode = nodes[0][4];
-            float paveSpeed = 2f;
-            Console.WriteLine(startingNode.IsWalkable);
-            Console.WriteLine(endNode.IsWalkable);
+            Point startPoint;
+            Point endPoint;
+            List<List<Node>> nodes = GetMapInfo("MapInput.txt", out startPoint, out endPoint);
+            Node startingNode = nodes[startPoint.X][startPoint.Y];
+            Node endNode = nodes[endPoint.X][endPoint.Y];
+            float paveSpeed = 2.2f;
             SearchParameters p = new SearchParameters(startingNode, endNode, nodes, paveSpeed);
             AStarSolver A = new AStarSolver(p);
             List<Point> ans = A.FindPath();
@@ -68,7 +21,42 @@ namespace Banished_Project
             Console.WriteLine(ans.Count);
             foreach(Point a in ans)
                 Console.WriteLine("("+a.X+", "+a.Y+")");
+        }
 
+        public static List<List<Node>> GetMapInfo(string filename, out Point startLocation, out Point endLocation)
+        {
+            string[] map = System.IO.File.ReadAllText(@filename).Split("\n");
+            List<List<Node>> nodes =  new List<List<Node>>();
+            startLocation=new Point(0,0);
+            endLocation=new Point(0,0);
+            int i=0;
+            foreach(string l in map)
+            {
+                List<Node> line = new List<Node>();
+                for(int j=0; j<l.Length; j++)
+                {
+                    bool walkable=true;
+                    bool paved=false;
+                    if(l[j].ToString()=="*")
+                        walkable=false;
+                    if(l[j].ToString()=="#")
+                        paved=true;
+                    if(l[j].ToString()=="S")
+                    {
+                        paved=true;
+                        startLocation=new Point(i,j);
+                    }
+                    if(l[j].ToString()=="F")
+                    {
+                        paved=true;
+                        endLocation=new Point(i,j);
+                    }
+                    line.Add(new Node(new Point(i,j), walkable, paved));
+                }
+                nodes.Add(line);
+                i++;
+            }
+            return nodes;
         }
     }
 }
