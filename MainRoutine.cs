@@ -14,9 +14,9 @@ namespace Banished_Project
             List<Node> startingNodes =new List<Node>();
             List<Node> endNodes = new List<Node>();
             foreach(Point sp in startPoint)
-                startingNodes.Add(nodes[sp.Y][sp.X]);
+                startingNodes.Add(nodes[sp.X][sp.Y]);
             foreach(Point ep in endPoint)
-                endNodes.Add(nodes[ep.Y][ep.X]);
+                endNodes.Add(nodes[ep.X][ep.Y]);
             float paveSpeed = 2.2f;
             List<List<Point>> ans= new List<List<Point>>();
             foreach(Node sn in startingNodes)
@@ -48,11 +48,9 @@ namespace Banished_Project
             int i=0;
             foreach(string l in map)
             {
-                Console.WriteLine(l);
                 List<Node> line = new List<Node>();
                 for(int j=0; j<l.Length; j++)
                 {
-                    Console.WriteLine(l[j]);
                     bool walkable=true;
                     bool paved=false;
                     if(l[j].ToString()=="*")
