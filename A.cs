@@ -150,6 +150,7 @@ namespace Banished_Project
                     path.Add(node.Location);
                     node = node.ParentNode;
                 }
+                path.Add(node.Location);
                 path.Reverse();
             }
             return path;
